@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Truth or Dare 🔥 ไพ่สุ่ม</title>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120509;--ink:#fbe9ee;--card:#1d0a12;--t:#ff5c8a;--d:#ff2e4d;--gold:#d9b26a;--mute:#c99aa8;color-scheme:dark;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:'Mitr',system-ui,sans-serif;text-align:center;padding:22px 14px 36px;overflow-x:hidden;
+background:radial-gradient(ellipse at 50% -5%,#6b1230 0,rgba(107,18,48,0) 55%),radial-gradient(ellipse at 50% 110%,#4a0a1f 0,rgba(74,10,31,0) 50%),var(--bg)}
+h1{font-weight:500;font-size:2rem;margin:6px 0 2px;letter-spacing:.04em;text-shadow:0 0 18px rgba(255,46,77,.55)}
+h1 .t{color:var(--t)}h1 .d{color:var(--d)}
+h1 .or{color:var(--gold);font-size:1.1rem;font-style:italic;margin:0 4px}
+.sub{margin:0 0 14px;color:var(--gold);font-size:.95rem}
+.rules{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;font-size:.85rem}
+.rules span{padding:5px 14px;border-radius:999px;border:1.5px solid;background:rgba(0,0,0,.35)}
+.rules .t{border-color:var(--t);color:#ffc2d3}.rules .d{border-color:var(--d);color:#ffb3bf}
+.stage{perspective:1000px;width:min(290px,80vw);height:400px;margin:0 auto;cursor:pointer}
+.inner{position:relative;width:100%;height:100%;transition:transform .8s cubic-bezier(.3,1.2,.5,1);transform-style:preserve-3d}
+.stage.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;box-shadow:0 0 34px rgba(255,46,77,.35),0 14px 30px rgba(0,0,0,.6)}
+.back{background:radial-gradient(circle at 50% 40%,#8a1236 0,#35081a 62%,#1a0409 100%);border:3px solid var(--gold);color:#fbe9ee;box-shadow:inset 0 0 0 7px #1a0409,inset 0 0 0 8px var(--gold),0 0 34px rgba(255,46,77,.35),0 14px 30px rgba(0,0,0,.6)}
+.back .big{font-size:4rem;margin-bottom:10px;filter:drop-shadow(0 0 14px rgba(255,46,77,.9))}
+.back small{color:var(--gold);margin-top:4px;font-style:italic}
+.front{background:linear-gradient(160deg,#2b0f1b,#160509);transform:rotateY(180deg);border:2px solid var(--c);box-shadow:inset 0 0 0 6px #160509,inset 0 0 0 7px var(--c),0 0 36px var(--cg),0 14px 30px rgba(0,0,0,.6)}
+.front.truth{--c:var(--t);--cg:rgba(255,92,138,.5)}
+.front.dare{--c:var(--d);--cg:rgba(255,46,77,.55)}
+.badge{font-size:1.05rem;font-weight:500;color:#fff;background:linear-gradient(90deg,var(--c),#8a1236);padding:5px 20px;border-radius:999px;margin-bottom:18px;letter-spacing:.12em}
+.q{font-size:1.2rem;line-height:1.65;flex:1;display:flex;align-items:center}
+.pen{margin-top:12px;font-size:.85rem;padding:8px 12px;border-radius:14px;border:1px dashed var(--gold);color:var(--gold);width:100%}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{font:inherit;font-size:1rem;color:#fff;border:1.5px solid var(--gold);border-radius:999px;padding:11px 22px;cursor:pointer;box-shadow:0 0 14px rgba(255,46,77,.35)}
+.btn:active{transform:translateY(2px)}
+.bt{background:linear-gradient(135deg,#ff5c8a,#b01048)}.bd{background:linear-gradient(135deg,#ff2e4d,#8a0a1f)}.br{background:linear-gradient(135deg,#5a1030,#2b0612)}
+.count{margin-top:14px;font-size:.82rem;color:var(--mute);min-height:1.2em}
+.note{margin:22px auto 0;max-width:420px;font-size:.78rem;color:var(--mute);line-height:1.6}
+@media (max-width:420px){.stage{height:370px}}
+</style>
+</head>
+<body>
+<h1><span class="t">Truth</span> <span class="or">or</span> <span class="d">Dare</span> 💋</h1>
+<p class="sub">คืนนี้... ใครจะเป็นฝ่ายยอมก่อน 💋 จั่วไพ่ทีละใบ ถ้าใจกล้าพอ</p>
+<div class="rules"><span class="t">💋 Truth ไม่ตอบ = ดื่ม 1 ช็อต</span><span class="d">🔥 Dare ไม่ทำ = ดื่ม 2 ช็อต</span></div>
+
+<div class="stage" id="stage" role="button" aria-label="จั่วไพ่">
+  <div class="inner">
+    <div class="face back"><div class="big">💋</div><div>แตะเพื่อจั่วไพ่</div><small>ถ้าใจกล้าพอ...</small></div>
+    <div class="face front truth" id="front">
+      <div class="badge" id="badge"></div>
+      <div class="q" id="q"></div>
+      <div class="pen" id="pen"></div>
+    </div>
+  </div>
+</div>
+
+<div class="btns">
+  <button class="btn bt" data-k="truth">💋 Truth</button>
+  <button class="btn bd" data-k="dare">🔥 Dare</button>
+  <button class="btn br" data-k="rand">🎲 สุ่มเลย</button>
+</div>
+<div class="count" id="count"></div>
+<p class="note">เกมสำหรับคู่รักผู้ใหญ่ที่ยินยอมกันทั้งสองฝ่าย ข้อไหนไม่สบายใจข้ามหรือปฏิเสธได้เสมอ และพูดหยุดเมื่อไหร่ก็ได้ ดื่มแต่พอประมาณ ไม่ดื่มเปลี่ยนเป็นน้ำหรือชาได้ ห้ามขับรถหลังดื่มนะ 🚕</p>
+
+<script>
+const TRUTH=[
+"จุดไหนบนร่างกายที่ถูกสัมผัสแล้วรู้สึกดีที่สุด (บอกเท่าที่สบายใจ)",
+"ช่วงเวลาไหนของวันที่อยากอยู่ใกล้ชิดกันที่สุด",
+"ครั้งไหนที่ใกล้ชิดกับเรา ที่ประทับใจที่สุด เพราะอะไร",
+"ชอบเป็นฝ่ายนำ หรืออยากให้อีกคนนำมากกว่า",
+"ชุดนอนหรือชุดชั้นในแบบไหนของอีกคน ที่ทำให้ใจสั่นที่สุด",
+"มีอะไรที่อยากลองกับเรา แต่ยังไม่กล้าบอก",
+"ชอบเปิดไฟสลัว ปิดไฟมืด หรือเปิดไฟสว่าง",
+"ชอบให้อีกคนกระซิบอะไรข้างหูตอนใกล้ชิดกัน",
+"เพลงแบบไหนที่เปิดคลอแล้วอารมณ์มาที่สุด",
+"จูบแบบไหนที่ชอบที่สุด ช้า ๆ ลึก ๆ หรือหยอกล้อ",
+"เคยแอบนึกถึงเราในเวลาที่ไม่ควรนึกไหม",
+"นอกจากเตียง อยากลองสร้างบรรยากาศที่มุมไหนของบ้าน",
+"ชอบช่วงเช้า ช่วงดึก หรือแบบไม่ได้วางแผน",
+"เราทำอะไรแล้วรู้สึกว่าถูกต้องการที่สุด",
+"มีอะไรที่ไม่ชอบหรืออยากให้เลี่ยงไหม บอกไว้ตรงนี้เลย",
+"ชอบการเล่นบทบาทสมมติไหม ถ้าลอง อยากเป็นบทไหน",
+"ตอนนี้เขินระดับไหน ให้คะแนน 1-10",
+"แต่งตัวแบบไหนแล้วรู้สึกเซ็กซี่ที่สุด",
+"เคยฝันแซ่บเกี่ยวกับเราไหม เล่าเท่าที่สบายใจ",
+"คืนนี้อยากให้อีกคนทำอะไรให้เป็นพิเศษ",
+"ชอบช่วงสร้างอารมณ์แบบสั้นกระชับ หรือค่อย ๆ ช้า ๆ ยาว ๆ",
+"อะไรคือสิ่งที่ทำให้อารมณ์มาเร็วที่สุด"
+];
+const DARE=[
+"จูบอีกคนนาน 10 วินาที นับดัง ๆ",
+"ถอดเสื้อผ้าหนึ่งชิ้น (เลือกเอง)",
+"นวดหลังหรือไหล่อีกคน 2 นาที (ใช้โลชั่นหรือน้ำมันนวดยิ่งดี)",
+"ปิดตา ให้อีกคนสัมผัสเบา ๆ ด้วยขนนกหรือน้ำแข็ง แล้วทายว่าอะไร",
+"กระซิบข้างหูอีกคนว่าคืนนี้อยากทำอะไร",
+"เต้นยั่วแบบเต็มที่ 30 วินาที",
+"จูบตามลำคอและไหล่อีกคนอย่างช้า ๆ 30 วินาที",
+"ป้อนผลไม้หรือช็อกโกแลตให้อีกคนด้วยปาก",
+"ให้อีกคนเลือกเสื้อผ้าของเธอ 1 ชิ้นให้ถอด",
+"นั่งบนตักอีกคนจนถึงรอบหน้า",
+"ใช้ริมฝีปากเขียนคำว่า \"รัก\" บนแขนอีกคน",
+"สบตา กอดกัน หายใจพร้อมกัน 1 นาที",
+"ใช้ปลายนิ้วไล้เบา ๆ ตามแขนและหลังมืออีกคน",
+"บอกสิ่งที่ชอบที่สุดในร่างกายอีกคน 3 ข้อ แบบให้เขินจนตัวสั่น",
+"ผูกตาตัวเอง ให้อีกคนจูบตามจุดต่าง ๆ แล้วทายว่าตรงไหน",
+"โพสท่าเซ็กซี่ 3 ท่า ให้อีกคนให้คะแนน",
+"จูบมืออีกคนทีละนิ้ว",
+"เล่าฉากโรแมนติกแซ่บ ๆ ในจินตนาการ 1 นาที (เล่าแบบเว้นระยะให้คนฟังใจเต้น)",
+"หอมแก้มอีกคน 10 ที แล้วค่อย ๆ ไล่ลงมาจูบ",
+"ให้อีกคนเลือกท่ากอดที่แน่นที่สุด แล้วอยู่ในท่านั้น 30 วินาที",
+"ทำตามคำสั่งเล็ก ๆ 1 ข้อจากอีกคน (ถ้าไม่สบายใจ ปฏิเสธได้)",
+"หรี่ไฟ เปิดเพลง แล้วเต้นช้า ๆ ด้วยกันจนจบเพลง"
+];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+let pool={truth:shuf(TRUTH),dare:shuf(DARE)};
+const $=id=>document.getElementById(id),stage=$('stage'),front=$('front'),count=$('count');
+let busy=false;
+function pick(k){
+  if(k==='rand')k=Math.random()<.5?'truth':'dare';
+  if(!pool[k].length)pool[k]=shuf(k==='truth'?TRUTH:DARE);
+  return [k,pool[k].pop()];
+}
+function draw(kind){
+  if(busy)return;busy=true;
+  const show=()=>{
+    const [k,text]=pick(kind);
+    front.className='face front '+k;
+    $('badge').textContent=k==='truth'?'💋 TRUTH':'🔥 DARE';
+    $('q').textContent=text;
+    $('pen').textContent=k==='truth'?'🥃 ไม่ตอบ ดื่ม 1 ช็อต':'🥃🥃 ไม่ทำ ดื่ม 2 ช็อต';
+    stage.classList.add('flip');
+    count.textContent='เหลือ Truth '+pool.truth.length+' ใบ · Dare '+pool.dare.length+' ใบ ในสำรับนี้';
+    setTimeout(()=>busy=false,700);
+  };
+  if(stage.classList.contains('flip')){stage.classList.remove('flip');setTimeout(show,450)}else show();
+}
+stage.addEventListener('click',()=>draw('rand'));
+document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',()=>draw(b.dataset.k)));
+</script>
+</body>
+</html>
